@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base::layout(~{::section})}">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Signup Page</title>
+</head>
+
+<body>
+<section>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-7 col-lg-6">
+
+                <div class="card shadow-lg border-0 rounded-4">
+                    <div class="card-body p-4">
+
+                        <!-- Icon -->
+                        <div class="text-center mb-3">
+                            <img style="width:90px"
+                                 th:src="@{/img/register.png}"
+                                 alt="Register Icon">
+                        </div>
+
+                        <!-- Error Message -->
+                        <div th:if="${error}" class="alert alert-danger text-center">
+                            <span th:text="${error}"></span>
+                        </div>
+
+                        <h2 class="text-center mb-4 fw-bold">Register Here</h2>
+
+                        <!-- Form -->
+                        <form th:action="@{/do_register}" method="post" th:object="${user}">
+
+                            <div class="mb-3">
+                                <label class="form-label">Your Name</label>
+                                <input type="text"
+                                       class="form-control form-control-lg"
+                                       th:classappend="${#fields.hasErrors('name')} ?'is-invalid' : ''"
+                                       th:field="*{name}"
+                                       id="name_field"
+                                       placeholder="Enter your name"
+                                       required />
+                            </div>
+                            <div
+                            	th:each="e:${#fields.errors('name')}"
+                            	th:text="${e}"
+                            	class="invalid-feedback">
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Email Address</label>
+                                <input type="email"
+                                       class="form-control form-control-lg"
+                                       th:field="*{email}"
+                                       placeholder="Enter your email"
+                                       required />
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Password</label>
+                                <input type="password"
+                                       class="form-control form-control-lg"
+                                       th:field="*{password}"
+                                       placeholder="Enter your password"
+                                       required />
+                            </div>
+
+                            <div class="mb-4">
+                                <label class="form-label">About You</label>
+                                <textarea rows="4"
+                                          class="form-control"
+                                          th:field="*{about}"
+                                         
+                                          placeholder="Tell us something about yourself"></textarea>
+                            </div>
+
+                            <!-- Agreement -->
+                            <div class="form-check mb-3">
+                                <input class="form-check-input"
+                                       type="checkbox"
+                                       name="agreement"
+                                       id="agreement"
+                                       required>
+                                <label class="form-check-label" for="agreement">
+                                    I agree to the
+                                    <a href="#" class="text-decoration-none">
+                                        Terms & Conditions
+                                    </a>
+                                </label>
+                            </div>
+
+                            <!-- Buttons -->
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary text-white">
+                                    Register
+                                </button>
+                                <button type="reset" class="btn btn-warning">
+                                    Reset
+                                </button>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</section>
+</body>
+</html>

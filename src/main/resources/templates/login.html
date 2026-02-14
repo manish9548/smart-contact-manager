@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{base::layout(~{::section})}">
+<body>
+
+<section>
+    <div id="login">
+        <div class="container">
+
+            <div class="row justify-content-center align-items-center">
+
+                <div class="col-md-6">
+
+                    <div id="login-box" class="p-4 border rounded bg-white">
+
+                        <form  id="login-form" class="form" th:action="@{/dologin}" action ="#" method="post">
+
+                            <h3 class="text-center text-info mb-4">Login</h3>
+                            <div th:if="${param.error}" class ="alert alert-danger">
+                             Invalid Username and passoword
+                            </div>
+                             <div th:if="${param.logout}" class ="alert alert-success">
+                             You have been logout
+                            </div>
+
+                            <!-- Username -->
+                            <div class="form-group mb-3">
+                                <label class="text-info">Username:</label>
+                                <input type="text" name="username" class="form-control">
+                            </div>
+
+							
+                            <!-- Password -->
+                            <div class="form-group mb-3">
+                                <label class="text-info">Password:</label>
+                                <input type="password" name="password" class="form-control">
+                            </div>
+
+                            <!-- Remember me -->
+                            <div class="form-group mb-3">
+                                <label class="text-info">
+                                    <input type="checkbox" name="remember-me">
+                                    Remember me
+                                </label>
+                            </div>
+
+                            <!-- Submit button -->
+                            <div class="form-group mb-3">
+                                <input type="submit"
+                                       class="btn btn-info"
+                                       value="Submit">
+                            </div>
+
+                            <!-- Register link -->
+                            <div class="text-end">
+                                <a th:href="@{/signup}" class="text-info">
+                                    Register here
+                                </a>
+                            </div>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
