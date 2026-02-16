@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+th:replace="~{normal/base::layout(~{::section})}">
+
+<head>
+<meta charset="UTF-8">
+<title>Add Contact</title>
+</head>
+
+<body>
+
+<section>
+
+<div class="container">
+
+<div class="card mt-3">
+
+<div class="card-body">
+
+<h3>Add Contact</h3>
+
+<form th:action="@{/user/process-contact}" method="post" th:object="${contact}">
+
+<!-- Name -->
+<div class="mb-3">
+<label>Name</label>
+<input type="text" th:field="*{name}" class="form-control" required>
+</div>
+
+<!-- Email -->
+<div class="mb-3">
+<label>Email</label>
+<input type="email" th:field="*{email}" class="form-control">
+</div>
+
+<!-- Phone -->
+<div class="mb-3">
+<label>Phone</label>
+<input type="text" th:field="*{phone}" class="form-control">
+</div>
+ <!-- Work -->
+ <div class="mb-3">
+<label>Phone</label>
+ <input type="text" th:field="*{work}" placeholder="Enter Work" class="form-control">
+</div>
+   
+
+<!-- Description -->
+<div class="mb-3">
+<label>Description</label>
+<textarea th:field="*{description}" class="form-control"></textarea>
+</div>
+<!-- Image -->
+<div class="mb-3">
+<label>Phone</label>
+  <input type="file" name="profileImage" class="form-control">
+</div>
+
+   
+
+<button type="submit" class="btn btn-primary">
+Add Contact
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+</body>
+
+</html>

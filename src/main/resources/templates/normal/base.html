@@ -61,7 +61,7 @@
         &times;
     </span>
 
-    <a href="#" class="item">
+    <a href="#" th:href="@{/user/index}"class="item">
         <i class="fa-solid fa-house"></i> Home
     </a>
 
@@ -69,7 +69,7 @@
         <i class="fa-solid fa-address-book"></i> View Contact
     </a>
 
-    <a href="#" class="item">
+    <a href="#"  th:href="@{/user/add-contact}" class="item">
         <i class="fa-solid fa-person-circle-plus"></i> Add Contact
     </a>
 
@@ -81,7 +81,7 @@
         <i class="fa-solid fa-gear"></i> Settings
     </a>
 
-    <a href="#" class="item">
+    <a href="#"th:href="@{/logout}" class="item">
         <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
     </a>
 
@@ -95,7 +95,8 @@
 
     <i onclick="toggleSidebar()" class="fas fa-bars m-3"></i>
 
-    <div th:replace="${content}"></div>
+   <div th:replace="${content}"></div>
+
 
 </div>
 
