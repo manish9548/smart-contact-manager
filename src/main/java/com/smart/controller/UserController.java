@@ -23,6 +23,10 @@ import org.springframework.transaction.annotation.Transactional;
 import com.smart.dao.UserRepository;
 import com.smart.entities.Contact;
 import com.smart.entities.User;
+import com.smart.healper.Message;
+
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/user")
@@ -67,7 +71,8 @@ public class UserController {
     public String processContact
     (@ModelAttribute Contact contact,
     		@RequestParam("profileImage") MultipartFile file,
-    		Principal principal) {
+    		Principal principal ,HttpSession session) {
+    	
     	
     	
 
@@ -99,12 +104,18 @@ public class UserController {
            System.out.println("DATA " + contact);
 
            System.out.println("Added to database");
+           //message success
+           
+           session.setAttribute("message", new Message ("your contect is added!! Add more..","success" ) );
+           
 
            return "normal/add_contact_form";
        }catch(Exception e){
-    	   //TODO :handle exception
+    	
     	   System.out.println("ERROR"+e.getMessage());
-    	   e.printStackTrace();      
+    	   e.printStackTrace();    
+    	   // message error
+    	   session.setAttribute("message", new Message ("some thing went wrong !! Try again...","danger" ) );
     	   }
        return "normal/add_contact_form"; 
     }
