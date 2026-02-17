@@ -19,7 +19,7 @@ th:replace="~{normal/base::layout(~{::section})}">
 
 <h3>Add Contact</h3>
 
-<form th:action="@{/user/process-contact}" method="post" th:object="${contact}">
+<form th:action="@{/user/process-contact}" method="post" enctype="multipart/form-data" th:object="${contact}">
 
 <!-- Name -->
 <div class="mb-3">
@@ -40,7 +40,7 @@ th:replace="~{normal/base::layout(~{::section})}">
 </div>
  <!-- Work -->
  <div class="mb-3">
-<label>Phone</label>
+<label>Work</label>
  <input type="text" th:field="*{work}" placeholder="Enter Work" class="form-control">
 </div>
    
@@ -52,7 +52,7 @@ th:replace="~{normal/base::layout(~{::section})}">
 </div>
 <!-- Image -->
 <div class="mb-3">
-<label>Phone</label>
+<label>Image</label>
   <input type="file" name="profileImage" class="form-control">
 </div>
 

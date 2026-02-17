@@ -25,6 +25,7 @@ public class Contact {
 	private String image;
 	@Column(length=5000)
 	private String description;
+	
 	@ManyToOne
 	private User user;
 	
@@ -83,5 +84,5 @@ public class Contact {
 		this.description = description;
 	}
 	
-
+	
 }
