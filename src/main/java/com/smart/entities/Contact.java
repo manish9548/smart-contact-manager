@@ -7,6 +7,10 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 @Entity
 @Table(name="CONTACT")
@@ -16,11 +20,19 @@ public class Contact {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int cId;
+	@NotBlank(message = "Name is required")
+	@Size(min=3,max=20,message = "Name must be 3-20 character")
 	private String name;
 	private String seconName;
+	@NotBlank(message = "Work is required")
 	private String work;
-	private String email;
 	
+	@NotBlank(message = "Name is required")
+	@Email(message = "Invalid email format")
+	@Column(nullable = false)
+	private String email;
+	@NotBlank(message = "phone no is required")
+	@Pattern(regexp = "^[0-9]{10}$", message = "Phone must be 10 digits")
 	private String phone;
 	private String image;
 	@Column(length=5000)

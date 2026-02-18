@@ -19,58 +19,117 @@ th:replace="~{normal/base::layout(~{::section})}">
 
 <h3>Add Contact</h3>
 
-<form th:action="@{/user/process-contact}" method="post" enctype="multipart/form-data" th:object="${contact}">
+<form th:action="@{/user/process-contact}" 
+      method="post"
+      enctype="multipart/form-data"
+      th:object="${contact}">
 
-<!-- Name -->
-<div class="mb-3">
-<label>Name</label>
-<input type="text" th:field="*{name}" class="form-control" required>
-</div>
+    <!-- Name -->
+    <div class="mb-3">
+        <label>Name</label>
+        <input type="text"
+               th:field="*{name}"
+               class="form-control"
+               th:classappend="${#fields.hasErrors('name')} ? 'is-invalid' : ''">
 
-<!-- Email -->
-<div class="mb-3">
-<label>Email</label>
-<input type="email" th:field="*{email}" class="form-control">
-</div>
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('name')}"
+             th:errors="*{name}">
+        </div>
+    </div>
 
-<!-- Phone -->
-<div class="mb-3">
-<label>Phone</label>
-<input type="text" th:field="*{phone}" class="form-control">
-</div>
- <!-- Work -->
- <div class="mb-3">
-<label>Work</label>
- <input type="text" th:field="*{work}" placeholder="Enter Work" class="form-control">
-</div>
-   
+    <!-- Email -->
+    <div class="mb-3">
+        <label>Email</label>
+        <input type="email"
+               th:field="*{email}"
+               class="form-control"
+               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''">
 
-<!-- Description -->
-<div class="mb-3">
-<label>Description</label>
-<textarea th:field="*{description}" class="form-control"></textarea>
-</div>
-<!-- Image -->
-<div class="mb-3">
-<label>Image</label>
-  <input type="file" name="profileImage" class="form-control">
-</div>
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('email')}"
+             th:errors="*{email}">
+        </div>
+    </div>
 
-   
+    <!-- Phone -->
+    <div class="mb-3">
+        <label>Phone</label>
+        <input type="text"
+               th:field="*{phone}"
+               class="form-control"
+               th:classappend="${#fields.hasErrors('phone')} ? 'is-invalid' : ''">
 
-<button type="submit" class="btn btn-primary">
-Add Contact
-</button>
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('phone')}"
+             th:errors="*{phone}">
+        </div>
+    </div>
+
+    <!-- Work -->
+    <div class="mb-3">
+        <label>Work</label>
+        <input type="text"
+               th:field="*{work}"
+               class="form-control"
+               th:classappend="${#fields.hasErrors('work')} ? 'is-invalid' : ''">
+
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('work')}"
+             th:errors="*{work}">
+        </div>
+    </div>
+
+    <!-- Description -->
+    <div class="mb-3">
+        <label>Description</label>
+        <textarea  id="mytextarea"
+        			th:field="*{description}"
+                  class="form-control"
+                  th:classappend="${#fields.hasErrors('description')} ? 'is-invalid' : ''">
+        </textarea>
+
+        <div class="invalid-feedback"
+             th:if="${#fields.hasErrors('description')}"
+             th:errors="*{description}">
+        </div>
+    </div>
+
+    <!-- Image -->
+    <div class="mb-3">
+        <label>Image</label>
+        <input type="file"
+               name="profileImage"
+               class="form-control">
+    </div>
+
+    <button type="submit" class="btn btn-primary">
+        Add Contact
+    </button>
 
 </form>
 
-</div>
 
 </div>
 
 </div>
 
-</section>
+</div>
+		<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/8/tinymce.min.js" 
+		referrerpolicy="origin"
+		 crossorigin="anonymous"></script>
+		 <script>
+		 tinymce.init({
+			selector:'#mytextarea',
+				 height: 300
+
+			});
+		 
+		 </script>
+		 
+		 
+		 
+	</section>
 
 </body>
 

@@ -1,11 +1,13 @@
 package com.smart.controller;
 
+import java.util.List;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.smart.dao.ContactRepository;
 import com.smart.dao.UserRepository;
 import com.smart.entities.Contact;
 import com.smart.entities.User;
@@ -27,6 +30,7 @@ import com.smart.healper.Message;
 
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 @RequestMapping("/user")
@@ -34,6 +38,8 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ContactRepository contactRepository;
 
     // common data
     @ModelAttribute
@@ -68,56 +74,76 @@ public class UserController {
     // ✅ FIXED METHOD
     @PostMapping("/process-contact")
     @Transactional
-    public String processContact
-    (@ModelAttribute Contact contact,
-    		@RequestParam("profileImage") MultipartFile file,
-    		Principal principal ,HttpSession session) {
-    	
-    	
-    	
+    public String processContact(
+            @Valid @ModelAttribute("contact") Contact contact,
+            org.springframework.validation.BindingResult result,
+            @RequestParam("profileImage") MultipartFile file,
+            Principal principal,
+            HttpSession session,
+            Model model) {
 
-       try {
-    	   String name = principal.getName();
+        try {
 
-           User user = this.userRepository.findByEmail(name);
-           //processing anduploading file...
-           if(file.isEmpty()) {
-        	   System.out.println("File is empty");
-        	   
-           }else {
-        	   contact.setImage(file.getOriginalFilename());
-        	
-        	File saveFile =   new ClassPathResource("static/img").getFile();
-        	Path    path  = Paths.get(saveFile.getAbsolutePath()+File.separator+file.getOriginalFilename());
-        	Files.copy(file.getInputStream(),path,StandardCopyOption.REPLACE_EXISTING);
-        	System.out.println("img is uploaded");
-           }
+            // 🔴 VALIDATION CHECK
+            if (result.hasErrors()) {
+                System.out.println("Validation Errors");
+                model.addAttribute("contact", contact);
+                return "normal/add_contact_form";
+            }
 
-           contact.setUser(user);
-           
-           
+            String name = principal.getName();
+            User user = this.userRepository.findByEmail(name);
 
-           user.getContacts().add(contact);
+            // File upload
+            if (file.isEmpty()) {
+                System.out.println("File is empty");
+            } else {
+                contact.setImage(file.getOriginalFilename());
 
-           this.userRepository.save(user);
+                File saveFile = new ClassPathResource("static/img").getFile();
+                Path path = Paths.get(saveFile.getAbsolutePath()
+                        + File.separator + file.getOriginalFilename());
 
-           System.out.println("DATA " + contact);
+                Files.copy(file.getInputStream(), path,
+                        StandardCopyOption.REPLACE_EXISTING);
 
-           System.out.println("Added to database");
-           //message success
-           
-           session.setAttribute("message", new Message ("your contect is added!! Add more..","success" ) );
-           
+                System.out.println("img is uploaded");
+            }
 
-           return "normal/add_contact_form";
-       }catch(Exception e){
-    	
-    	   System.out.println("ERROR"+e.getMessage());
-    	   e.printStackTrace();    
-    	   // message error
-    	   session.setAttribute("message", new Message ("some thing went wrong !! Try again...","danger" ) );
-    	   }
-       return "normal/add_contact_form"; 
+            contact.setUser(user);
+            user.getContacts().add(contact);
+
+            this.userRepository.save(user);
+
+            session.setAttribute("message",
+                    new Message("Your contact is added!! Add more..", "success"));
+
+            return "redirect:/user/add-contact";
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            session.setAttribute("message",
+                    new Message("Something went wrong !! Try again...", "danger"));
+        }
+
+        return "normal/add_contact_form";
+        
     }
+    //show contact handler 
+    @GetMapping("/show-contacts")
+    public String showContacts(Model m,Principal principal) {
+    	m.addAttribute("title", "Show user Contact");
+    	String userName = principal.getName();
+    	User user =	this.userRepository.findByEmail(userName);
+    	
+    	
+    	List<Contact> contacts=this.contactRepository.findContactsByUser(user.getId());
+    	m.addAttribute("contacts",contacts );
+    	
+    	return "normal/show_contacts";
+    }
+
 
 }

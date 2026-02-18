@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{normal/base :: layout(~{::section})}">
+
+<head>
+<meta charset="UTF-8">
+<title>Show Contact</title>
+</head>
+
+<body>
+
+<section>
+
+<div class="card mr-3 ml-3">
+<div class="card-body">
+
+<h1 class="text-center">Your Contacts</h1>
+
+<table class="table table-striped">
+
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+
+    <tbody>
+
+        <tr th:each="c : ${contacts}">
+
+            <!-- ID -->
+            <td th:text="${c.cId}"></td>
+
+            <!-- Name -->
+            <td th:text="${c.name}"></td>
+
+            <!-- Email -->
+            <td th:text="${c.email}"></td>
+
+            <!-- Phone -->
+            <td th:text="${c.phone}"></td>
+
+            <!-- Action Buttons -->
+            <td>
+
+                <!-- Update Button -->
+                <a th:href="@{'/user/update-contact/' + ${c.cId}}"
+                   class="btn btn-sm btn-primary">
+                   Update
+                </a>
+
+                <!-- Delete Button -->
+                <a th:href="@{'/user/delete-contact/' + ${c.cId}}"
+                   class="btn btn-sm btn-danger"
+                   onclick="return confirm('Are you sure you want to delete this contact?')">
+                   Delete
+                </a>
+
+            </td>
+
+        </tr>
+
+    </tbody>
+
+</table>
+ 
+
+</div>
+</div>
+
+</section>
+
+</body>
+</html>
