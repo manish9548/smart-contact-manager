@@ -1,21 +1,25 @@
 package com.smart.controller;
 
 import java.util.List;
+
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import org.springframework.data.domain.Pageable; // ✅ CORRECT
 
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -131,16 +135,31 @@ public class UserController {
         return "normal/add_contact_form";
         
     }
+    
     //show contact handler 
+    
+    //per page =5[n]
+ // ✅ Default handler (no page number required)
     @GetMapping("/show-contacts")
-    public String showContacts(Model m,Principal principal) {
+    public String showContactsFirstPage(Model model, Principal principal) {
+
+        return showContacts(0, model, principal);
+
+    }
+
+    
+    @GetMapping("/show-contacts/{page}")
+    public String showContacts(@PathVariable("page") Integer page  ,Model m,Principal principal) {
     	m.addAttribute("title", "Show user Contact");
     	String userName = principal.getName();
     	User user =	this.userRepository.findByEmail(userName);
+    	Pageable pageable = PageRequest.of(page ,5);
     	
     	
-    	List<Contact> contacts=this.contactRepository.findContactsByUser(user.getId());
+    	Page<Contact> contacts=this.contactRepository.findContactsByUser(user.getId(),pageable);
     	m.addAttribute("contacts",contacts );
+    	m.addAttribute("currentPage", page);
+    	m.addAttribute("totalPages", contacts.getTotalPages());
     	
     	return "normal/show_contacts";
     }

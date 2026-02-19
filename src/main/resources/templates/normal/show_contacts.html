@@ -30,7 +30,7 @@
 
     <tbody>
 
-        <tr th:each="c : ${contacts}">
+        <tr th:each="c : ${contacts.content}">
 
             <!-- ID -->
             <td th:text="${c.cId}"></td>
@@ -67,7 +67,51 @@
     </tbody>
 
 </table>
- 
+
+<!-- ✅ Dynamic Pagination -->
+<nav aria-label="Page navigation example">
+
+  <ul class="pagination justify-content-center">
+
+    <!-- Previous Button -->
+    <li class="page-item"
+        th:classappend="${currentPage == 0} ? 'disabled'">
+
+      <a class="page-link"
+         th:href="@{'/user/show-contacts/' + ${currentPage-1}}">
+         Previous
+      </a>
+
+    </li>
+
+
+    <!-- Page Numbers -->
+    <li class="page-item"
+        th:each="i : ${#numbers.sequence(0, totalPages-1)}"
+        th:classappend="${currentPage == i} ? 'active'">
+
+        <a class="page-link"
+           th:href="@{'/user/show-contacts/' + ${i}}"
+           th:text="${i+1}">
+        </a>
+
+    </li>
+
+
+    <!-- Next Button -->
+    <li class="page-item"
+        th:classappend="${currentPage == totalPages-1} ? 'disabled'">
+
+      <a class="page-link"
+         th:href="@{'/user/show-contacts/' + ${currentPage+1}}">
+         Next
+      </a>
+
+    </li>
+
+  </ul>
+
+</nav>
 
 </div>
 </div>
