@@ -21,7 +21,8 @@
     <thead class="table-dark">
         <tr>
             <th>ID</th>
-            <th>Name</th>
+            <th>Image</th>
+            <th>Name</th>  
             <th>Email</th>
             <th>Phone</th>
             <th>Action</th>
@@ -33,13 +34,26 @@
         <tr th:each="c : ${contacts.content}">
 
             <!-- ID -->
-            <td th:text="${c.cId}"></td>
+            <td th:text="${'SCMUSER' + c.cId}"></td>
+            <!-- Image -->
+			<td>
+    <img th:src="${c.image == null || c.image == '' || c.image == 'null'} 
+                  ? @{/img/contact.jpg} 
+                  : @{/img/} + ${c.image}"
+         class="my_profile_picture"
+         style="height:50px; width:50px; border-radius:50%; object-fit:cover;">
+</td>
+            
 
             <!-- Name -->
             <td th:text="${c.name}"></td>
 
             <!-- Email -->
-            <td th:text="${c.email}"></td>
+            <td>
+			    <a th:href="@{/user/contact/{id}(id=${c.cId})}">
+			        <span th:text="${c.email}"></span>
+			    </a>
+			</td>
 
             <!-- Phone -->
             <td th:text="${c.phone}"></td>
