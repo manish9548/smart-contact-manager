@@ -28,6 +28,9 @@ import com.smart.healper.Message;
 
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/user")
@@ -246,4 +249,32 @@ public class UserController {
 
         return "redirect:/user/show-contacts";
     }
+    @GetMapping("/profile")
+    public String yourprofile(Model model) {
+    	model.addAttribute("title", "profile page");
+    	
+        return "normal/profile";
+    }
+    
+    //open setting handler 
+    @GetMapping("/settings")
+    public String openSettings() {
+    	return "normal/settings";
+    }
+    
+   
+    
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

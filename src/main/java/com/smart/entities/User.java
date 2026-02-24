@@ -21,7 +21,7 @@ public class User {
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", role=" + role
 				+ ", enabled=" + enabled + ", imageUrl=" + imageUrl + ", about=" + about + ", contacts=" + contacts
-				+ "]";
+				+", phone=" + phone + "]";
 	}
 
 
@@ -45,6 +45,7 @@ public class User {
 	private String imageUrl;
 	@Column(length =500)
 	private String about;
+	private String phone;
 	
 	@OneToMany(cascade=CascadeType.ALL,fetch=FetchType.LAZY ,mappedBy="user")
 	private List<Contact> contacts =new ArrayList<>();
@@ -142,6 +143,12 @@ public class User {
 
 	public void setContacts(List<Contact> contacts) {
 		this.contacts = contacts;
+	}
+	public String getPhone() {
+	    return phone;
+	}
+	public void setPhone(String phone) {
+	    this.phone = phone;
 	}
 	
 	

@@ -40,27 +40,32 @@ body {
 
 
 /* sidebar */
-.sidebar{
-    width:18%;
-    background:white;
-    height:100vh;
-    position:fixed;
-    padding-top:20px;
-    z-index:999;
+.sidebar {
+    width: 20%; /* Increased slightly for better text fit */
+    background: white;
+    height: 100vh;
+    position: fixed;
+    padding-top: 80px; /* Space for the top navbar */
+    z-index: 999;
+    box-shadow: 2px 0 10px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
 }
 
 /* sidebar links */
-.sidebar a{
-    display:block;
-    width:100%;
-    padding:10px 25px;
-    text-decoration:none;
-    color:gray;
-    font-weight:500;
+.sidebar a {
+    display: block;
+    width: 100%;
+    padding: 12px 25px;
+    text-decoration: none;
+    color: #444;
+    font-weight: 500;
+    transition: 0.2s;
 }
 
-.sidebar a:hover{
-    background:#e2e2e2;
+.sidebar a:hover {
+    background: #f4f7f6;
+    color: #009688; /* Match your navbar color */
+    padding-left: 30px;
 }
 
 /* divider */
@@ -81,9 +86,10 @@ body {
 }
 
 /* content area */
-.content{
-    margin-left:20%;
-    padding:20px;
+.content {
+    margin-left: 20%; /* Matches sidebar width exactly */
+    padding: 30px;
+    min-height: 100vh;
 }
 
 /* hamburger icon */
@@ -99,6 +105,7 @@ body {
         width:100%;
         height:auto;
         position:relative;
+        display: none;
     }
 
     .content{
@@ -113,3 +120,137 @@ body {
 	border-radius:50%;
 	border:1px solid black;
 }
+
+/* for profile page */
+
+
+
+
+
+/* Custom Profile Styling */
+
+.card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Give the table a clean, modern look */
+.table th {
+    font-weight: 600;
+    color: #495057;
+    width: 35%;
+}
+
+.table td {
+    color: #212529;
+}
+
+/* Soft primary badge styling */
+.bg-soft-primary {
+    background-color: #e7f1ff;
+    color: #0d6efd;
+    padding: 8px 15px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 50px;
+}
+
+/* Profile Image Hover Effect */
+.rounded-circle {
+    transition: transform 0.4s ease;
+}
+
+.card:hover .rounded-circle {
+    transform: scale(1.05);
+}
+
+/* Button hover animations */
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(118, 75, 162, 0.4);
+}
+
+.btn-outline-danger {
+    transition: all 0.3s ease;
+}
+
+.btn-outline-danger:hover {
+    background-color: #dc3545;
+    color: white;
+    transform: translateY(-2px);
+}
+
+/* Table Row Hover */
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa;
+    transition: background-color 0.2s ease;
+}
+
+/* Custom spacing for icons */
+.fas {
+    width: 20px;
+    text-align: center;
+}
+
+/* search css */
+
+.search-container {
+    position: relative;
+}
+
+.search-result {
+    position: absolute;
+    background: white;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    display: none; /* JS isse show karega */
+    z-index: 100; /* Taaki table ke upar dikhe */
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.search-result .list-group-item:hover {
+    background-color: #f8f9fa;
+    color: #009688;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
