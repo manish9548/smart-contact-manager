@@ -12,16 +12,19 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class MyConfig {
 
+    // ✅ Custom UserDetailsService
     @Bean
     public UserDetailsService userDetailsService() {
         return new UserDetailsServiceImpl();
     }
 
+    // ✅ Password Encoder
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
+    // ✅ Authentication Provider
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -30,6 +33,7 @@ public class MyConfig {
         return provider;
     }
 
+    // ✅ Security Configuration
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
@@ -38,32 +42,54 @@ public class MyConfig {
 
             .authorizeHttpRequests(auth -> auth
 
-                // ✅ allow static resources explicitly
+                // Static resources
                 .requestMatchers("/css/**", "/js/**", "/img/**", "/webjars/**").permitAll()
 
-                // ✅ allow public pages
-                .requestMatchers("/", "/about", "/signup", "/do_register", "/login").permitAll()
+                // Public pages
+                .requestMatchers(
+                        "/", 
+                        "/about", 
+                        "/signup", 
+                        "/do_register",
+                        "/signin"
+                ).permitAll()
 
-                // ✅ role based access
+                // Forgot Password URLs
+                .requestMatchers(
+                        "/forgot-password",
+                        "/send-otp",
+                        "/verify-otp",
+                        "/reset-password",
+                        "/update-password"
+                ).permitAll()
+
+                // Role based access
                 .requestMatchers("/admin/**").hasRole("ADMIN")
                 .requestMatchers("/user/**").hasRole("USER")
 
+                // Any other request
                 .anyRequest().authenticated()
             )
 
+            // Login configuration
             .formLogin(form -> form
+                    .loginPage("/login")   // 👈 yaha change
+                    .loginProcessingUrl("/dologin")
+                    .defaultSuccessUrl("/user/index", true)
+                    .failureUrl("/login?error=true")
+                    .permitAll()
+            )
 
-            	    .loginPage("/signin")            // fixed typo
-            	    .loginProcessingUrl("/dologin") // must match form action
-            	    .defaultSuccessUrl("/user/index", true)
+            // Logout configuration
+            .logout(logout -> logout
+                    .logoutUrl("/logout")
+                    .logoutSuccessUrl("/signin?logout=true")
+                    .permitAll()
+            )
 
-            	    .permitAll()
-            	)
-
-
+            // CSRF (disable for development)
             .csrf(csrf -> csrf.disable());
 
         return http.build();
     }
-
 }

@@ -1,74 +1,100 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
       th:replace="~{base::layout(~{::section})}">
-<body>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
 
 <section>
-    <div id="login">
-        <div class="container">
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-5">
 
-            <div class="row justify-content-center align-items-center">
+                <div class="card shadow-lg border-0 rounded">
+                    <div class="card-body p-4">
 
-                <div class="col-md-6">
+                        <!-- Heading -->
+                        <h3 class="text-center mb-4 text-primary">
+                            Login to Your Account
+                        </h3>
 
-                    <div id="login-box" class="p-4 border rounded bg-white">
+                        <!-- Error Message -->
+                        <div th:if="${param.error}" 
+                             class="alert alert-danger text-center">
+                            Invalid Username or Password
+                        </div>
 
-                        <form  id="login-form" class="form" th:action="@{/dologin}" action ="#" method="post">
+                        <!-- Logout Message -->
+                        <div th:if="${param.logout}" 
+                             class="alert alert-success text-center">
+                            You have been logged out successfully
+                        </div>
 
-                            <h3 class="text-center text-info mb-4">Login</h3>
-                            <div th:if="${param.error}" class ="alert alert-danger">
-                             Invalid Username and passoword
-                            </div>
-                             <div th:if="${param.logout}" class ="alert alert-success">
-                             You have been logout
-                            </div>
+                        <!-- Login Form -->
+                        <form th:action="@{/dologin}" method="post">
 
                             <!-- Username -->
                             <div class="form-group mb-3">
-                                <label class="text-info">Username:</label>
-                                <input type="text" name="username" class="form-control">
+                                <label>Username</label>
+                                <input type="text"
+                                       name="username"
+                                       class="form-control"
+                                       placeholder="Enter your username"
+                                       required>
                             </div>
 
-							
                             <!-- Password -->
                             <div class="form-group mb-3">
-                                <label class="text-info">Password:</label>
-                                <input type="password" name="password" class="form-control">
+                                <label>Password</label>
+                                <input type="password"
+                                       name="password"
+                                       class="form-control"
+                                       placeholder="Enter your password"
+                                       required>
                             </div>
 
-                            <!-- Remember me -->
-                            <div class="form-group mb-3">
-                                <label class="text-info">
+                            <!-- Remember + Forgot -->
+                            <div class="d-flex justify-content-between mb-3">
+                                <div>
                                     <input type="checkbox" name="remember-me">
-                                    Remember me
-                                </label>
+                                    <label>Remember me</label>
+                                </div>
+                                <div>
+                                    <a th:href="@{/forgot-password}"
+                                       class="text-decoration-none">
+                                        Forgot Password?
+                                    </a>
+                                </div>
                             </div>
 
-                            <!-- Submit button -->
-                            <div class="form-group mb-3">
-                                <input type="submit"
-                                       class="btn btn-info"
-                                       value="Submit">
-                            </div>
-
-                            <!-- Register link -->
-                            <div class="text-end">
-                                <a th:href="@{/signup}" class="text-info">
-                                    Register here
-                                </a>
+                            <!-- Submit Button -->
+                            <div class="d-grid mb-3">
+                                <button type="submit"
+                                        class="btn btn-primary">
+                                    Login
+                                </button>
                             </div>
 
                         </form>
 
-                    </div>
+                        <!-- Register Link -->
+                        <div class="text-center">
+                            Don't have an account?
+                            <a th:href="@{/signup}"
+                               class="text-primary fw-bold text-decoration-none">
+                                Register Here
+                            </a>
+                        </div>
 
+                    </div>
                 </div>
 
             </div>
-
         </div>
     </div>
 </section>
 
-</body>
 </html>

@@ -13,6 +13,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -35,6 +36,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Autowired
     private UserRepository userRepository;
@@ -261,6 +264,38 @@ public class UserController {
     public String openSettings() {
     	return "normal/settings";
     }
+    @PostMapping("/change-password")
+    public String changePassword(@RequestParam("oldPassword")String oldPassword 
+    		,@RequestParam("newPassword")String newPassword
+    		,Principal principal,HttpSession session
+    		
+    		) {
+    	System.out.println("OLDPASSWORD"+oldPassword);
+    	System.out.println("NEWPASSWORD"+newPassword);
+    	
+    	String userName =principal.getName();
+    	User  currentUser  =   this.userRepository.findByEmail(userName);
+    	System.out.println(currentUser.getPassword());
+    	if(this.bCryptPasswordEncoder.matches(oldPassword, currentUser.getPassword())) {
+    		//change the password
+    		currentUser.setPassword(this.bCryptPasswordEncoder.encode(newPassword));
+    		
+    		this.userRepository.save(currentUser);
+    		session.setAttribute("message",
+                    new Message("Your Password changed successfully!", "success"));
+
+    		
+    	}else {
+    		session.setAttribute("message",
+                    new Message("Please Enter the correct old Password!!", "danger"));
+    					return "redirect:/user/settings";
+    	}
+    	
+    	
+    	return "redirect:/normal/user/index";
+    }
+    
+   
     
    
     
